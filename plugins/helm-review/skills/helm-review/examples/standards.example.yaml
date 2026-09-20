@@ -1,0 +1,49 @@
+# Example .helm-review/standards.yaml for a fictional org ("Acme").
+# Copy to .helm-review/standards.yaml in your repo (or ~/.claude/helm-review/standards.yaml
+# for a personal default) and replace every value below. Nothing here is a real system.
+# Field reference: references/standards-config.md
+
+version: 1
+
+references:
+  # Services backed by a SQL database.
+  - name: acme-sql-service
+    source:
+      git: git@git.acme.example:platform/service-templates.git
+      ref: main
+      path: charts/sql-service
+    applies_when:
+      - values_key_equals: { key: dbType, value: postgres }
+
+  # Services backed by a document database. Same platform integrations, different DB block.
+  - name: acme-doc-service
+    source:
+      git: git@git.acme.example:platform/service-templates.git
+      ref: main
+      path: charts/doc-service
+    applies_when:
+      - values_key_equals: { key: dbType, value: mongodb }
+
+  # Background workers: no Service, no datastore block. Local checkout works offline/in CI.
+  - name: acme-worker
+    source:
+      path: ../service-templates/charts/worker
+    applies_when:
+      - values_key_present: queue
+    default: false
+
+compare:
+  - naming
+  - labels
+  - values_layout
+  - integrations           # e.g. mesh sidecar, tracing, authz wiring the references include
+  - shared_env_pattern     # e.g. a cluster-wide extraEnvVars block
+  - datastore_connection
+
+# The two service references differ here by design. If it can't be determined which one a chart
+# targets, this category is reported as "undetermined" rather than guessed.
+varies_by_type:
+  - datastore_connection
+
+docs:
+  - docs/service-standard.md

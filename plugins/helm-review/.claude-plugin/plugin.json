@@ -1,0 +1,6 @@
+{
+  "name": "helm-review",
+  "display_name": "Helm & Kubernetes Review",
+  "description": "Adds a helm-review skill that reviews Helm charts and Kubernetes manifests for syntax/schema correctness, adherence to org conventions (checked live against reference charts), and human readability/maintainability, plus a companion helm-review-update-standards skill to refresh the maintainer-facing docs on those reference charts.",
+  "version": "1.0.0"
+}

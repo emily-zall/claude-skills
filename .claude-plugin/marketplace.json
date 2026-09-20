@@ -1,0 +1,13 @@
+{
+  "name": "ez-skills",
+  "owner": {
+    "name": "Emily Zall"
+  },
+  "plugins": [
+    {
+      "name": "helm-review",
+      "source": "./plugins/helm-review",
+      "description": "Review Helm charts for syntax, standards conformance, and readability, against your org's own reference charts, sibling charts, or a generic baseline."
+    }
+  ]
+}
